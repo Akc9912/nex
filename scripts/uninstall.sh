@@ -9,8 +9,8 @@ removed=0
 for dest in \
   "$CLAUDE/CLAUDE.md" "$CLAUDE/settings.json" "$OPENCODE/AGENTS.md" \
   "$OPENCODE/opencode.jsonc" "$OPENCODE/plugins/nex.ts" "$HOME/.local/bin/nex"; do
-  if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$ROOT"/* ] || [ -L "$dest" ]; then
-    target=$(readlink "$dest" 2>/dev/null || true)
+  if [ -L "$dest" ]; then
+    target=$(readlink "$dest")
     case "$target" in
       "$ROOT"/*) rm -f "$dest"; removed=$((removed+1)); echo "removed $dest";;
     esac

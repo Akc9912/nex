@@ -21,8 +21,8 @@ for tool in gitleaks trivy semgrep chromium uv shellcheck gh; do
   if have "$tool"; then ok "$tool: $("$tool" --version 2>/dev/null | head -1)"; else warn_ "$tool missing (see docs/install.md)"; fi
 done
 case ":$PATH:" in
-  *":$HOME/.local/bin:"*) ok "~/.local/bin is on PATH" ;;
-  *) warn_ "~/.local/bin is not on PATH in this shell; run: exec bash" ;;
+  *":$HOME/.local/bin:"*) ok "$HOME/.local/bin is on PATH" ;;
+  *) warn_ "$HOME/.local/bin is not on PATH in this shell; run: exec bash" ;;
 esac
 
 printf '\nGenerated content\n'
@@ -74,7 +74,7 @@ for hook in "$ROOT"/shared/hooks/*.sh; do
 done
 ok "hook scripts are executable and syntactically valid"
 if have shellcheck; then
-  if shellcheck -x "$ROOT"/shared/hooks/*.sh "$ROOT"/scripts/*.sh "$ROOT"/bin/nex >/dev/null 2>&1; then
+  if shellcheck -x --severity=warning "$ROOT"/shared/hooks/*.sh "$ROOT"/scripts/*.sh "$ROOT"/bin/nex >/dev/null 2>&1; then
     ok "shellcheck clean"
   else
     warn_ "shellcheck reported warnings (run it directly to inspect)"

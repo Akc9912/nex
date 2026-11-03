@@ -47,7 +47,7 @@ fi
 
 printf 'Created %s\n' "$dest"
 printf '\nNext:\n'
-printf '  cd %s\n' "$dest
+printf '  cd %s\n' "$dest"
 printf '  codegraph init .          # optional: build the code index\n'
 printf '  ./scripts/verify.sh       # run the project checks\n'
 printf '  claude                    # or: opencode\n'

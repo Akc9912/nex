@@ -22,7 +22,6 @@ root=$(project_root "$cwd")
 
 model="" agent="" tokens_input=0 tokens_output=0 tokens_cache_read=0 tokens_cache_write=0
 tokens_reasoning=0 cost="" title=""
-model_breakdown=""
 
 if [ "$tool" = "opencode" ]; then
   db="$HOME/.local/share/opencode/opencode.db"
