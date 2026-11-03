@@ -18,6 +18,22 @@
 
 ---
 
+## 🔧 Integrated tools
+
+[![Engram](https://img.shields.io/badge/Engram-v3.6.1-4B8BBE)](https://github.com/Gentleman-Programming/engram)
+[![CodeGraph](https://img.shields.io/badge/CodeGraph-v1.6.2-0A7EA4)](https://github.com/colbymchenry/codegraph)
+[![Context7](https://img.shields.io/badge/Context7-MCP-000?logo=context7)](https://context7.com/)
+[![Playwright](https://img.shields.io/badge/Playwright-MCP-2EAD33?logo=playwright)](https://github.com/microsoft/playwright-mcp)
+[![Chrome DevTools](https://img.shields.io/badge/Chrome_DevTools-MCP-4285F4?logo=google-chrome)](https://github.com/ChromeDevTools/chrome-devtools-mcp)
+[![ccusage](https://img.shields.io/badge/ccusage-v20.0.48-F7DF1E)](https://ccusage.com/)
+[![OpenUsage](https://img.shields.io/badge/OpenUsage-v0.26.3-000)](https://github.com/janekbaraniewski/openusage)
+[![Semgrep](https://img.shields.io/badge/Semgrep-v1.183.0-CE3B69)](https://semgrep.dev/)
+[![Gitleaks](https://img.shields.io/badge/Gitleaks-v8.30.1-E34F26)](https://github.com/gitleaks/gitleaks)
+[![Trivy](https://img.shields.io/badge/Trivy-v0.76.1-1904DA)](https://trivy.dev/)
+[![Prettier](https://img.shields.io/badge/Prettier-v3.9.10-F7B93E?logo=prettier&logoColor=000)](https://prettier.io/)
+[![ESLint](https://img.shields.io/badge/ESLint-v10.14.0-4B32C3?logo=eslint&logoColor=fff)](https://eslint.org/)
+[![Knip](https://img.shields.io/badge/Knip-v6.44.1-000)](https://knip.dev/)
+
 ## 📁 Layout
 
 ```
