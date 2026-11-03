@@ -95,4 +95,11 @@ if printf '%s' "$scan" | grep -Eqi '\bdelete[[:space:]]+from[[:space:]]+[A-Za-z0
   deny "DELETE without WHERE"
 fi
 
+# User policy: commits carry no co-author trailers. Covers -m and heredoc
+# messages; a message read from a file (-F <file>) is not inspected.
+if printf '%s' "$scan" | grep -Eqi '(^|[;&|()][[:space:]]*)git[[:space:]]+([^;&|]*[[:space:]])?commit([[:space:]]|$)' \
+  && printf '%s' "$cmd" | grep -qi 'co-authored-by:'; then
+  deny "Co-Authored-By trailers are not allowed in commits; remove the trailer"
+fi
+
 exit 0

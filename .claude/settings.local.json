@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(git switch *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(python3 -)",
+      "Bash(./scripts/verify.sh)"
     ]
   }
 }

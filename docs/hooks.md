@@ -9,7 +9,7 @@ V2 plugin. They are guardrails and evidence collectors, not a sandbox.
 | `session-end.sh` | session end / idle | writes a handoff file and usage record |
 | `post-edit.sh` | after edit/write | formatter, linter, syntax checks on that file |
 | `pre-commit.sh` | before `git commit` | secrets, whitespace, staged files, targeted lint |
-| `guard-destructive.sh` | before any shell | blocks obvious destructive commands |
+| `guard-destructive.sh` | before any shell | blocks obvious destructive commands and commits with `Co-Authored-By` trailers |
 | `task-verify.sh` | agent stop | runs the project verifier once per changed tree |
 
 ## Claude Code mapping
@@ -74,6 +74,9 @@ blocking, and the status line. It uses a temporary git repository and no network
 ## Limitations
 
 - Regex guards cannot parse shell. A determined command can evade them.
+- The co-author guard reads the command text only: a commit message passed with
+  `-F <file>` is not inspected. Claude Code's own trailer is also disabled with
+  `attribution: {"commit": "", "pr": ""}` in `claude/settings.json`.
 - Claude Code subagents with `Bash` can write through shell redirection; the
   read-only guarantee is enforced by the absence of edit tools plus the guard,
   not by an OS sandbox.

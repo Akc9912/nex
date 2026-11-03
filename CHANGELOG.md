@@ -6,6 +6,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- Commits with `Co-Authored-By` trailers are blocked by `guard-destructive.sh`
+  (Claude Code and OpenCode), and Claude Code's commit/PR attribution is
+  disabled in `claude/settings.json`.
 - macOS support: Homebrew branch in `system-install.sh`, darwin Engram
   binaries, Chrome for Testing for mac, and hooks/scripts that run on the stock
   Bash 3.2 without GNU coreutils (`timeout`, `sha256sum`, `stat -c`, `date -d`,
