@@ -29,7 +29,7 @@
     ]
   },
   "claude": {
-    "tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash"],
+    "tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash", "Skill"],
     "permissionMode": "default",
     "maxTurns": 30
   }

@@ -14,7 +14,7 @@
     ]
   },
   "claude": {
-    "tools": ["Read", "Grep", "Glob", "WebFetch", "WebSearch"],
+    "tools": ["Read", "Grep", "Glob", "WebFetch", "WebSearch", "Skill"],
     "permissionMode": "plan",
     "maxTurns": 14
   }

@@ -12,6 +12,21 @@ mkdir -p "$SESSIONS_DIR" "$USAGE_DIR"
 
 have() { command -v "$1" >/dev/null 2>&1; }
 
+# macOS ships neither GNU timeout nor sha256sum, and BSD date has no -I.
+run_timeout() {
+  local secs="$1"; shift
+  if have timeout; then timeout "$secs" "$@"
+  elif have gtimeout; then gtimeout "$secs" "$@"
+  else "$@"
+  fi
+}
+
+sha256() {
+  if have sha256sum; then sha256sum; else shasum -a 256; fi
+}
+
+iso_now() { date +%Y-%m-%dT%H:%M:%S%z; }
+
 hook_field() {
   # hook_field <json> <jq expression>
   local json="$1" expr="$2"
@@ -25,7 +40,7 @@ project_root() {
 }
 
 log_hook() {
-  printf '%s\t%s\t%s\n' "$(date -Iseconds)" "${1:-hook}" "${2:-}" >>"$LOG_FILE" 2>/dev/null || true
+  printf '%s\t%s\t%s\n' "$(iso_now)" "${1:-hook}" "${2:-}" >>"$LOG_FILE" 2>/dev/null || true
 }
 
 # Print a markdown-ish context block, capped to a sane size.
@@ -66,7 +81,7 @@ stack_hint() {
 usage_today_line() {
   have ccusage || return 0
   local json
-  json=$(timeout 3 ccusage opencode daily --json --last 1 -O 2>/dev/null) || return 0
+  json=$(run_timeout 3 ccusage opencode daily --json --last 1 -O 2>/dev/null) || return 0
   [ -n "$json" ] || return 0
   printf '%s' "$json" | jq -r '
     [.daily[]] as $d

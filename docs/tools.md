@@ -14,7 +14,7 @@ verified installation (run `nex version` to see current ones).
 | Rust / Cargo | 16.2.1 / 4.4.1 (make) | pacman / official |
 | Docker | 29.9.2 | pacman / official |
 | Git | 2.56.0 | pacman / official |
-| Bash / Zsh | 5.3.20 / 5.9.2 | pacman / official |
+| Bash / Zsh | 5.3.20 / 5.9.2 (scripts need Bash ≥ 3.2) | pacman / official |
 
 ## AI CLIs
 

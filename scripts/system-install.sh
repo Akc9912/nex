@@ -1,26 +1,38 @@
 #!/usr/bin/env bash
 # Install the system packages needed by the environment.
-# Supports Arch (pacman), Debian/Ubuntu (apt), Fedora/RHEL (dnf), openSUSE (zypper), Alpine (apk).
-# Run as root: sudo bash ~/nex/scripts/system-install.sh
+# Supports Arch (pacman), Debian/Ubuntu (apt), Fedora/RHEL (dnf), openSUSE (zypper),
+# Alpine (apk), and macOS (Homebrew). On Windows, run it inside WSL2.
+# Linux: sudo bash ~/nex/scripts/system-install.sh
+# macOS: bash ~/nex/scripts/system-install.sh   (Homebrew refuses to run as root)
 set -euo pipefail
 
-if [ "$(id -u)" -ne 0 ]; then
-  printf 'This script installs system packages and needs root.\n' >&2
-  printf 'Run: sudo bash %s\n' "$0" >&2
-  exit 1
-fi
-
-# Detect distro
-if [ -f /etc/os-release ]; then
-  . /etc/os-release
+if [ "$(uname -s)" = Darwin ]; then
+  if [ "$(id -u)" -eq 0 ]; then
+    printf 'On macOS, run this script without sudo; Homebrew refuses to run as root.\n' >&2
+    exit 1
+  fi
+  if ! command -v brew >/dev/null 2>&1; then
+    printf 'Homebrew is required on macOS: https://brew.sh\n' >&2
+    exit 1
+  fi
+  DISTRO_ID="macos"
 else
-  printf 'Cannot detect distribution: /etc/os-release missing.\n' >&2
-  exit 1
+  if [ "$(id -u)" -ne 0 ]; then
+    printf 'This script installs system packages and needs root.\n' >&2
+    printf 'Run: sudo bash %s\n' "$0" >&2
+    exit 1
+  fi
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+  else
+    printf 'Cannot detect distribution: /etc/os-release missing.\n' >&2
+    exit 1
+  fi
+  DISTRO_ID="${ID:-unknown}"
 fi
-
-DISTRO_ID="${ID:-unknown}"
 
 detect_pm() {
+  if [ "$DISTRO_ID" = macos ]; then echo brew; return; fi
   if command -v pacman >/dev/null 2>&1; then echo pacman; return; fi
   if command -v apt-get >/dev/null 2>&1; then echo apt; return; fi
   if command -v dnf >/dev/null 2>&1; then echo dnf; return; fi
@@ -31,7 +43,7 @@ detect_pm() {
 
 PM=$(detect_pm)
 if [ "$PM" = unknown ]; then
-  printf 'No supported package manager found (pacman/apt/dnf/zypper/apk).\n' >&2
+  printf 'No supported package manager found (pacman/apt/dnf/zypper/apk/brew).\n' >&2
   exit 1
 fi
 
@@ -85,6 +97,16 @@ case "$PM" in
     PKG_GH="github-cli"
     INSTALL_CMD="apk add"
     ;;
+  brew)
+    PKG_GITLEAKS="gitleaks"
+    PKG_TRIVY="trivy"
+    # Playwright and Chrome for Testing cover browser needs on macOS.
+    PKG_CHROMIUM=""
+    PKG_UV="uv"
+    PKG_SHELLCHECK="shellcheck"
+    PKG_GH="gh"
+    INSTALL_CMD="brew install"
+    ;;
 esac
 
 # Update package index where applicable
@@ -93,7 +115,7 @@ case "$PM" in
   dnf) : ;;
   zypper) zypper refresh -q ;;
   apk) apk update -q ;;
-  pacman) : ;;
+  pacman|brew) : ;;
 esac
 
 install_pkg() {

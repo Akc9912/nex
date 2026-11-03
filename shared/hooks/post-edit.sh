@@ -26,7 +26,7 @@ trap 'rm -f "$tmp"' EXIT
 
 run_check() {
   local label="$1"; shift
-  if ! timeout 15 "$@" >"$tmp" 2>&1; then
+  if ! run_timeout 15 "$@" >"$tmp" 2>&1; then
     failures=$((failures + 1))
     printf 'nex post-edit: %s failed for %s\n' "$label" "$file" >&2
     sed -n '1,40p' "$tmp" >&2

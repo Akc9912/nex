@@ -110,5 +110,5 @@ if command -v zsh >/dev/null 2>&1; then add_path_block "$HOME/.zshrc"; fi
 
 printf '\nlink: %s link(s) changed, %s file(s) backed up\n' "$changed" "$backed_up"
 if [ "$backed_up" -gt 0 ]; then printf 'link: backups in %s\n' "$BACKUP"; fi
-printf 'link: run `exec bash` (or restart the terminal) so ~/.local/bin is on PATH.\n'
+printf 'link: restart the terminal (or run `exec "$SHELL"`) so ~/.local/bin is on PATH.\n'
 printf 'link: restart OpenCode so it reloads config, agents, and the plugin.\n'

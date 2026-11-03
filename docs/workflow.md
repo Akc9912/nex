@@ -13,6 +13,26 @@ The template gives you one `AGENTS.md`, a `CLAUDE.md` symlink, a project
 verifier, and empty project-local agent directories. Global rules, agents,
 skills, MCP servers, and hooks are loaded from the user configuration.
 
+### Design system section in existing projects
+
+The template `AGENTS.md` has a `Design system` section that tells agents where
+to find tokens, shared components, and reference screens before building UI.
+Projects created before it was added, and every project adopted with
+`nex project init`, do not have it: `init` skips an existing `AGENTS.md` and
+generates its own minimal one without this section. For a project with a UI,
+add it by hand:
+
+```markdown
+## Design system
+
+- Tokens (color, type, spacing): <path, e.g. src/styles/tokens.css>
+- Shared components: <path, e.g. src/components/ui/>
+- Reference screens: <routes or files that show the intended style>
+```
+
+Without it, `frontend-design` still asks agents to inspect the design system,
+but they have to find it themselves.
+
 ## Start a session
 
 ```bash
@@ -29,9 +49,12 @@ dump the repository.
 1. **Recall**: for related work, ask for Engram `mem_context`/`mem_search`.
 2. **Explore**: read the relevant files; delegate broad search to `explorer`.
 3. **Plan**: use `architect` or `/plan` when the design is unclear.
-4. **Implement**: default `build`/`build` agent on STANDARD.
+4. **Implement**: default `build`/`build` agent on STANDARD. For UI work load
+   the `frontend-design` skill (or delegate to `frontend-developer`); for
+   server-side work load `backend-design` (or `backend-developer`).
 5. **Test**: `tester` for test-only work; run the narrow check first.
 6. **Review**: `/review` or the `reviewer` subagent for an independent pass.
+   UI changes are checked against the `frontend-design` review checklist.
 7. **Verify**: `./scripts/verify.sh`; the Stop hook runs it once per changed
    tree.
 8. **Hand off**: `/handoff` or `mem_session_summary` for durable context.

@@ -17,7 +17,7 @@
     ]
   },
   "claude": {
-    "tools": ["Read", "Grep", "Glob", "Bash"],
+    "tools": ["Read", "Grep", "Glob", "Bash", "Skill"],
     "permissionMode": "default",
     "maxTurns": 16
   }

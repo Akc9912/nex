@@ -86,7 +86,10 @@ Work in this order:
 3. Run the narrowest command that exercises it, then the relevant suite.
 4. Report the exact commands, exit codes, and output summary.
 
-Prefer table-driven or parameterized tests where the project uses them. Cover
-boundaries, invalid input, error paths, and regressions. Do not weaken assertions
-or delete tests to make a suite pass. Do not mark a test skipped without saying
+Prefer table-driven or parameterized tests where the project uses them. Scale
+coverage to risk: boundaries, invalid input, validation, permissions, error
+paths, integration between modules, and regressions. Assert observable
+behavior, not internal implementation. Do not weaken assertions or delete tests
+to make a suite pass, and do not remove a failing test without understanding
+its cause. Do not mark a test skipped without saying
 why. If the environment cannot run the suite, say exactly what is missing.

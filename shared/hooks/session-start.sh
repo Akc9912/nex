@@ -13,7 +13,7 @@ cwd="${cwd:-${NEX_CWD:-$PWD}}"
 root=$(project_root "$cwd")
 
 printf '<nex-context>\n'
-printf 'date: %s\n' "$(date -Iseconds)"
+printf 'date: %s\n' "$(iso_now)"
 printf 'cwd: %s\n' "$cwd"
 printf 'project: %s\n' "$(basename "$root")"
 session_git_context "$root"
