@@ -30,7 +30,8 @@ cp -a "$TEMPLATE" "$dest"
 
 # Replace the project-name placeholder in text files.
 while IFS= read -r -d '' file; do
-  sed -i "s/__PROJECT__/$name/g" "$file"
+  # Portable in-place edit; writing back through the original keeps its mode.
+  sed "s/__PROJECT__/$name/g" "$file" >"$file.nex-tmp" && cat "$file.nex-tmp" >"$file" && rm -f "$file.nex-tmp"
 done < <(find "$dest" -type f ! -path '*/.git/*' -print0)
 
 # A single instruction file, two native names.

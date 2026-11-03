@@ -23,7 +23,7 @@
 ## Tools
 
 - **gitleaks/trivy/chromium/uv/shellcheck/gh missing** — Run
-  `sudo bash ~/nex/scripts/system-install.sh` (pacman official packages).
+  `sudo bash ~/nex/scripts/system-install.sh` (on macOS, without `sudo`).
 - **npm tools missing** — Run `bash ~/nex/scripts/install-user-tools.sh`.
 - **shellcheck warnings** — Run `shellcheck -x shared/hooks/*.sh scripts/*.sh`.
 

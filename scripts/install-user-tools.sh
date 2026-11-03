@@ -24,10 +24,15 @@ ENGRAM_VERSION="3.6.1"
 if command -v engram >/dev/null 2>&1 && engram --version 2>/dev/null | grep -q "$ENGRAM_VERSION"; then
   printf 'engram %s already installed\n' "$ENGRAM_VERSION"
 else
+  case "$(uname -s)" in
+    Linux) os=linux ;;
+    Darwin) os=darwin ;;
+    *) printf 'Unsupported OS: %s (on Windows, use WSL2)\n' "$(uname -s)" >&2; exit 1 ;;
+  esac
   arch=$(uname -m)
   case "$arch" in
-    x86_64) asset="engram_${ENGRAM_VERSION}_linux_amd64.tar.gz" ;;
-    aarch64|arm64) asset="engram_${ENGRAM_VERSION}_linux_arm64.tar.gz" ;;
+    x86_64) asset="engram_${ENGRAM_VERSION}_${os}_amd64.tar.gz" ;;
+    aarch64|arm64) asset="engram_${ENGRAM_VERSION}_${os}_arm64.tar.gz" ;;
     *) printf 'Unsupported architecture: %s\n' "$arch" >&2; exit 1 ;;
   esac
   tmp=$(mktemp -d)
@@ -36,7 +41,8 @@ else
   printf 'Downloading Engram %s...\n' "$ENGRAM_VERSION"
   curl -fsSL "$base/checksums.txt" -o "$tmp/checksums.txt"
   curl -fsSL "$base/$asset" -o "$tmp/$asset"
-  (cd "$tmp" && grep "  $asset$" checksums.txt | sha256sum -c -)
+  if command -v sha256sum >/dev/null 2>&1; then sha_check="sha256sum -c -"; else sha_check="shasum -a 256 -c -"; fi
+  (cd "$tmp" && grep "  $asset$" checksums.txt | $sha_check)
   tar -xzf "$tmp/$asset" -C "$tmp" engram
   install -m 0755 "$tmp/engram" "$HOME/.local/bin/engram"
 fi

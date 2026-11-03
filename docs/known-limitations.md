@@ -4,15 +4,23 @@
 
 | OS | Status | Notes |
 |---|---|---|
-| Linux (Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, Alpine) | ✅ Supported | `system-install.sh` auto-detects the distro. Tested on Arch Linux. |
-| macOS | ❌ Not supported yet | Symlinks and Bash work, but install scripts and paths are Linux-oriented. Homebrew-based install not implemented. |
-| Windows | ❌ Not supported | Requires WSL2; native Windows is not supported (no Bash, symlinks, or Unix paths). |
+| Linux (Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, Alpine) | ✅ Supported | `system-install.sh` auto-detects the distro. Tested on Arch Linux; CI on Ubuntu. |
+| macOS | ✅ Supported | Homebrew install; hooks run on the stock Bash 3.2. CI runs the hook tests on macOS. |
+| Windows | ✅ Via WSL2 | Run nex inside WSL2 with the repo in `~/nex`. CI runs the hook tests in WSL2 Ubuntu 24.04. Native Windows is not supported. |
+
+CI covers rendering and the hook test suite on each platform. The full
+installers (`system-install.sh`, `install-user-tools.sh`,
+`install-browsers.sh`) and the Claude Code/OpenCode integrations have been run
+only on Arch Linux. Native Windows is not supported (no Bash, symlinks, or
+Unix paths).
 
 - **Claude Code is not authenticated** in this setup. Authentication is
   interactive and must be completed by the user (`claude auth login`).
 - **System packages** are installed via `scripts/system-install.sh`, which
-  supports Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, and Alpine. Other
-  distributions may need manual package installation.
+  supports Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, Alpine, and macOS
+  (Homebrew). Other distributions may need manual package installation.
+- **macOS has no `flock`**: concurrent session ends can race when writing the
+  usage log.
 - **semgrep** is installed via `uv tool install semgrep` (not an official Arch package).
 - **Chrome DevTools MCP** officially supports Chrome/Chrome for Testing only;
   Chromium is unsupported.

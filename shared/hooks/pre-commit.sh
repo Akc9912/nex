@@ -28,7 +28,10 @@ if git diff --cached -U0 | grep -E '^\+(<<<<<<<|>>>>>>>)' >/dev/null 2>&1; then
   fail "unresolved merge conflict markers"
 fi
 
-mapfile -d '' -t staged < <(git diff --cached --name-only --diff-filter=ACMR -z)
+staged=()
+while IFS= read -r -d '' file; do
+  staged+=("$file")
+done < <(git diff --cached --name-only --diff-filter=ACMR -z)
 [ "${#staged[@]}" -gt 0 ] || exit 0
 
 # Obvious secret-bearing files and oversized blobs.
@@ -43,7 +46,8 @@ for file in "${staged[@]}"; do
       ;;
   esac
   if [ -f "$file" ]; then
-    size=$(stat -c%s "$file" 2>/dev/null || echo 0)
+    size=$(wc -c <"$file" 2>/dev/null | tr -d ' ')
+    size=${size:-0}
     if [ "$size" -gt 2097152 ]; then
       fail "large staged file (${size} bytes): $file"
     fi
@@ -52,7 +56,7 @@ done
 
 # Secret scanning.
 if have gitleaks; then
-  if ! timeout 60 gitleaks protect --staged --no-banner --redact --exit-code 1 >"$tmp" 2>&1; then
+  if ! run_timeout 60 gitleaks protect --staged --no-banner --redact --exit-code 1 >"$tmp" 2>&1; then
     # gitleaks exits 1 when leaks are found; other failures are also reported.
     if grep -qi 'leak\|secret\|finding' "$tmp"; then
       fail "gitleaks found staged secrets"
@@ -80,7 +84,7 @@ for file in "${staged[@]}"; do
   esac
 done
 if [ "${#js_files[@]}" -gt 0 ] && [ -n "$eslint_bin" ] && [ "$eslint_config" = 1 ]; then
-  if ! timeout 60 "$eslint_bin" --no-error-on-unmatched-pattern "${js_files[@]}" >"$tmp" 2>&1; then
+  if ! run_timeout 60 "$eslint_bin" --no-error-on-unmatched-pattern "${js_files[@]}" >"$tmp" 2>&1; then
     fail "eslint reported errors in staged files"
     sed -n '1,60p' "$tmp" >&2
   fi
@@ -91,7 +95,7 @@ for file in "${staged[@]}"; do
   case "$file" in *.sh|*.bash) [ -f "$file" ] && sh_files+=("$file") ;; esac
 done
 if [ "${#sh_files[@]}" -gt 0 ] && have shellcheck; then
-  if ! timeout 60 shellcheck -x "${sh_files[@]}" >"$tmp" 2>&1; then
+  if ! run_timeout 60 shellcheck -x "${sh_files[@]}" >"$tmp" 2>&1; then
     fail "shellcheck reported errors in staged files"
     sed -n '1,60p' "$tmp" >&2
   fi
@@ -99,7 +103,7 @@ fi
 
 # Project-specific pre-commit hook.
 if [ -x .nex/pre-commit ]; then
-  if ! timeout 120 ./.nex/pre-commit >"$tmp" 2>&1; then
+  if ! run_timeout 120 ./.nex/pre-commit >"$tmp" 2>&1; then
     fail ".nex/pre-commit failed"
     sed -n '1,60p' "$tmp" >&2
   fi
@@ -109,12 +113,12 @@ fi
 # .nex/tests-on-commit or for one commit with NEX_PRECOMMIT_TESTS=1.
 if [ "${NEX_PRECOMMIT_TESTS:-0}" = "1" ] || [ -f .nex/tests-on-commit ]; then
   if [ -f package.json ] && jq -e '.scripts.test? // empty' package.json >/dev/null 2>&1; then
-    if ! timeout 180 npm test --silent >"$tmp" 2>&1; then
+    if ! run_timeout 180 npm test --silent >"$tmp" 2>&1; then
       fail "npm test failed"
       tail -40 "$tmp" >&2
     fi
   elif [ -f pyproject.toml ] || [ -f pytest.ini ]; then
-    if have pytest && ! timeout 180 pytest -q >"$tmp" 2>&1; then
+    if have pytest && ! run_timeout 180 pytest -q >"$tmp" 2>&1; then
       fail "pytest failed"
       tail -40 "$tmp" >&2
     fi

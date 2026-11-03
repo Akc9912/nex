@@ -103,7 +103,7 @@ out="$SESSIONS_DIR/${stamp}-${safe_id}.md"
 {
   printf '# Session %s\n\n' "$session_id"
   printf -- '- tool: %s\n' "$tool"
-  printf -- '- date: %s\n' "$(date -Iseconds)"
+  printf -- '- date: %s\n' "$(iso_now)"
   printf -- '- cwd: %s\n' "$root"
   printf -- '- reason: %s\n' "${reason:-unknown}"
   [ -n "$title" ] && printf -- '- title: %s\n' "$title"

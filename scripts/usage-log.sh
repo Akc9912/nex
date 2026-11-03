@@ -68,7 +68,7 @@ tmp=$(mktemp)
 trap 'rm -f "$tmp"' EXIT
 
 record=$(jq -cn \
-  --arg ts "$(date -Iseconds)" \
+  --arg ts "$(iso_now)" \
   --arg tool "$tool" \
   --arg session_id "$session_id" \
   --arg cwd "$root" \
@@ -90,7 +90,8 @@ record=$(jq -cn \
     cache_read: $cache_read, cache_write: $cache_write, cost: $cost}')
 
 (
-  flock 9
+  # flock is Linux-only; without it, concurrent session ends can race.
+  have flock && flock 9
   jq -c --arg id "$session_id" 'select(.session_id != $id)' "$file" >"$tmp" 2>/dev/null || true
   cat "$tmp" >"$file" 2>/dev/null || true
   printf '%s\n' "$record" >>"$file"

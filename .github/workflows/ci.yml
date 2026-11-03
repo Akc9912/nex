@@ -1,0 +1,55 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - run: node scripts/render.mjs --check
+      - run: shellcheck --severity=warning -x bin/nex scripts/*.sh shared/hooks/*.sh tests/hooks.sh
+      - run: bash tests/hooks.sh
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+      - run: command -v jq || brew install jq
+      - run: node scripts/render.mjs --check
+      # Run hooks with the system Bash 3.2 and without GNU coreutils, as on a
+      # stock Mac, even if the runner image has newer versions installed.
+      - name: hooks under /bin/bash 3.2
+        run: |
+          mkdir -p "$RUNNER_TEMP/stock"
+          ln -s /bin/bash "$RUNNER_TEMP/stock/bash"
+          /bin/bash --version | head -1
+          env PATH="$RUNNER_TEMP/stock:/usr/bin:/bin:/usr/sbin:/sbin:$(dirname "$(command -v jq)"):$(dirname "$(command -v node)")" \
+            /bin/bash tests/hooks.sh
+
+  windows-wsl:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: wsl-bash {0}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: Vampire/setup-wsl@4c48163d9f981914dd8caa0fc335fe19cca5bff4 # v7.2.0
+        with:
+          distribution: Ubuntu-24.04
+          additional-packages: git jq nodejs
+      # Supported setup: the repository lives inside the WSL filesystem.
+      - run: cp -r . "$HOME/nex"
+      - run: cd "$HOME/nex" && node scripts/render.mjs --check
+      - run: cd "$HOME/nex" && bash tests/hooks.sh

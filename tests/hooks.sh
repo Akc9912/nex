@@ -59,11 +59,8 @@ check "post-edit accepts valid JSON" 0 "$?"
 # Pre-commit: a staged .env must be blocked.
 printf 'SECRET=not-a-real-secret\n' >"$tmp/project/.env"
 git -C "$tmp/project" add .env
-set +e
 jq -cn --arg cwd "$tmp/project" '{cwd:$cwd}' | "$HOOKS/pre-commit.sh" >/dev/null 2>&1
-rc=$?
-set -e
-check "pre-commit blocks staged .env" 2 "$rc"
+check "pre-commit blocks staged .env" 2 "$?"
 
 # Task verification must tolerate a repository with no commits yet.
 mkdir -p "$tmp/fresh"
@@ -71,6 +68,36 @@ git -C "$tmp/fresh" init -q
 printf 'draft\n' >"$tmp/fresh/file.txt"
 jq -cn --arg cwd "$tmp/fresh" '{cwd:$cwd}' | "$HOOKS/task-verify.sh" >/dev/null 2>&1
 check "task-verify handles a repo with no HEAD" 0 "$?"
+
+# Pre-commit: an oversized staged file must be blocked (portable size check).
+mkdir -p "$tmp/big"
+git -C "$tmp/big" init -q
+head -c 3000000 /dev/zero >"$tmp/big/blob.bin"
+git -C "$tmp/big" add blob.bin
+jq -cn --arg cwd "$tmp/big" '{cwd:$cwd}' | (cd "$tmp/big" && "$HOOKS/pre-commit.sh") >/dev/null 2>&1
+check "pre-commit blocks large staged file" 2 "$?"
+
+# Task verification runs the project verifier (portable hash and timeout).
+mkdir -p "$tmp/verified/scripts"
+git -C "$tmp/verified" init -q
+git -C "$tmp/verified" config user.email test@example.invalid
+git -C "$tmp/verified" config user.name test
+printf 'v1\n' >"$tmp/verified/file.txt"
+git -C "$tmp/verified" add file.txt
+git -C "$tmp/verified" commit -qm init
+printf 'v2\n' >"$tmp/verified/file.txt"
+printf '#!/usr/bin/env bash\nexit 1\n' >"$tmp/verified/scripts/verify.sh"
+chmod +x "$tmp/verified/scripts/verify.sh"
+stop() { jq -cn --arg cwd "$tmp/verified" '{cwd:$cwd}' | XDG_STATE_HOME="$tmp/state" "$HOOKS/task-verify.sh" >/dev/null 2>&1; printf '%s' "$?"; }
+check "task-verify blocks a failing verifier" 2 "$(stop)"
+printf '#!/usr/bin/env bash\nexit 0\n' >"$tmp/verified/scripts/verify.sh"
+check "task-verify accepts a passing verifier" 0 "$(stop)"
+
+# The nex front door resolves its root through the ~/.local/bin symlink.
+mkdir -p "$tmp/bin"
+ln -s "$ROOT/bin/nex" "$tmp/bin/nex"
+(unset NEX_ROOT; "$tmp/bin/nex" render --check) >/dev/null 2>&1
+check "nex resolves its root through a symlink" 0 "$?"
 
 # Status line tolerates Claude's JSON shape.
 line=$(printf '%s' '{"model":{"display_name":"Sonnet"},"workspace":{"current_dir":"/tmp"},"cost":{"total_cost_usd":0.5}}' | "$ROOT/scripts/statusline.sh")

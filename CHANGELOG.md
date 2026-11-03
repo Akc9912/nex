@@ -6,6 +6,17 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- macOS support: Homebrew branch in `system-install.sh`, darwin Engram
+  binaries, Chrome for Testing for mac, and hooks/scripts that run on the stock
+  Bash 3.2 without GNU coreutils (`timeout`, `sha256sum`, `stat -c`, `date -d`,
+  `date -I`, `sed -i`, `readlink -f`, `flock`, `mapfile`).
+- Windows support through WSL2; `nex verify` reports the platform and warns when
+  the repo or tools live on the Windows filesystem.
+- GitHub Actions CI: render check, shellcheck, and hook tests on Linux, macOS
+  (Bash 3.2), and WSL2 Ubuntu 24.04.
+- `.gitattributes` forcing LF so a Windows checkout stays runnable.
+- Hook tests for oversized staged files, task verification, and `nex` symlink
+  resolution.
 - `nex project init` command to adopt existing projects (generate missing nex files).
 - `docs/tools.md` — tool catalog with versions and sources.
 - Shellcheck clean pass (`--severity=warning`).
@@ -17,6 +28,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `Design system` section in the project template `AGENTS.md`.
 
 ### Changed
+- Hook and usage-log timestamps use `+%Y-%m-%dT%H:%M:%S%z` (offset `+0100`
+  instead of `+01:00`) because BSD `date` has no `-I`.
+- `tests/hooks.sh` no longer enables `set -e` midway, which aborted any later
+  test expecting a non-zero exit.
 - Global rules: understand step now requires identifying reusable code and
   dependents; quality rules forbid unrequested features, invented requirements,
   fake data or undisclosed stubs, unjustified abstractions, unexplained TODOs,

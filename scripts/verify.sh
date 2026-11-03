@@ -13,6 +13,24 @@ have() { command -v "$1" >/dev/null 2>&1; }
 
 printf 'nex verify\n\n'
 
+printf 'Platform\n'
+case "$(uname -s)" in
+  Linux)
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+      ok "WSL2 detected"
+      case "$ROOT" in /mnt/*) warn_ "nex is on the Windows filesystem ($ROOT); clone it inside WSL (~/nex) for correct permissions and speed" ;; esac
+      for tool in claude opencode node; do
+        case "$(command -v "$tool" 2>/dev/null)" in /mnt/*) warn_ "$tool resolves to a Windows binary; install it inside WSL" ;; esac
+      done
+    else
+      ok "Linux"
+    fi
+    ;;
+  Darwin) ok "macOS $(sw_vers -productVersion 2>/dev/null)" ;;
+  *) bad "unsupported platform $(uname -s); on Windows, run nex inside WSL2" ;;
+esac
+printf '\n'
+
 printf 'Tools\n'
 for tool in claude opencode engram codegraph ccusage openusage node npm jq sqlite3 git rg; do
   if have "$tool"; then ok "$tool: $("$tool" --version 2>/dev/null | head -1)"; else bad "$tool missing"; fi

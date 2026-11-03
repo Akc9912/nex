@@ -61,13 +61,13 @@ fi
 
 # Avoid re-running the same verification on every stop of an unchanged tree.
 root=$(git rev-parse --show-toplevel)
-hash=$(git diff "$base" 2>/dev/null | sha256sum | cut -d' ' -f1)
-marker="$STATE_DIR/verify-$(printf '%s' "$root" | sha256sum | cut -c1-12).hash"
+hash=$(git diff "$base" 2>/dev/null | sha256 | cut -d' ' -f1)
+marker="$STATE_DIR/verify-$(printf '%s' "$root" | sha256 | cut -c1-12).hash"
 if [ -f "$marker" ] && [ "$(cat "$marker" 2>/dev/null)" = "$hash" ]; then
   exit 0
 fi
 
-if ! timeout 180 "$verifier" >"$tmp" 2>&1; then
+if ! run_timeout 180 "$verifier" >"$tmp" 2>&1; then
   {
     printf 'nex verify: %s failed; task is not complete.\n' "$verifier"
     tail -60 "$tmp"

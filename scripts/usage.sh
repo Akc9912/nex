@@ -37,7 +37,7 @@ offline=()
 [ "${NEX_USAGE_ONLINE:-0}" = "1" ] || offline=(-O)
 
 since_date() {
-  date -d "$1 days ago" +%F
+  date -d "$1 days ago" +%F 2>/dev/null || date -v-"$1"d +%F
 }
 
 cmd="${1:-report}"
@@ -49,20 +49,20 @@ case "$cmd" in
   today)
     need_ccusage
     # shellcheck disable=SC2046
-    exec ccusage opencode daily --last 1 "${offline[@]}"
+    exec ccusage opencode daily --last 1 ${offline[@]+"${offline[@]}"}
     ;;
 
   daily)
     need_ccusage
     # shellcheck disable=SC2046
-    exec ccusage opencode daily "${offline[@]}" "$@"
+    exec ccusage opencode daily ${offline[@]+"${offline[@]}"} "$@"
     ;;
 
   session)
     need_ccusage
     if [ "${1:-}" != "" ]; then
       id="$1"; shift
-      json=$(ccusage opencode session --json "${offline[@]}" 2>/dev/null) || {
+      json=$(ccusage opencode session --json ${offline[@]+"${offline[@]}"} 2>/dev/null) || {
         printf 'nex usage: could not read OpenCode usage\n' >&2; exit 1;
       }
       printf '%s' "$json" | jq --arg id "$id" '
@@ -71,13 +71,13 @@ case "$cmd" in
       exit 0
     fi
     # shellcheck disable=SC2046
-    exec ccusage opencode session --since "$(since_date 30)" "${offline[@]}" "$@"
+    exec ccusage opencode session --since "$(since_date 30)" ${offline[@]+"${offline[@]}"} "$@"
     ;;
 
   models)
     need_ccusage
     days="${1:-30}"
-    json=$(ccusage opencode daily --json --since "$(since_date "$days")" "${offline[@]}" 2>/dev/null) || {
+    json=$(ccusage opencode daily --json --since "$(since_date "$days")" ${offline[@]+"${offline[@]}"} 2>/dev/null) || {
       printf 'nex usage: could not read OpenCode usage\n' >&2; exit 1;
     }
     printf '%s' "$json" | jq -r '
@@ -100,10 +100,10 @@ case "$cmd" in
   report)
     need_ccusage
     days="${1:-30}"
-    daily=$(ccusage opencode daily --json --since "$(since_date "$days")" "${offline[@]}" 2>/dev/null) || {
+    daily=$(ccusage opencode daily --json --since "$(since_date "$days")" ${offline[@]+"${offline[@]}"} 2>/dev/null) || {
       printf 'nex usage: could not read OpenCode usage\n' >&2; exit 1;
     }
-    sessions=$(ccusage opencode session --json --since "$(since_date "$days")" "${offline[@]}" 2>/dev/null) || sessions='{"sessions":[]}'
+    sessions=$(ccusage opencode session --json --since "$(since_date "$days")" ${offline[@]+"${offline[@]}"} 2>/dev/null) || sessions='{"sessions":[]}'
     printf '# nex usage report\n\n'
     printf 'Source: local OpenCode data via ccusage. Period: last %s day(s).\n' "$days"
     printf 'Cost is an estimate from model pricing, not an invoice.\n\n'
@@ -163,9 +163,9 @@ case "$cmd" in
     need_ccusage
     mkdir -p "$USAGE_DIR"
     out="$USAGE_DIR/export-$(date +%F-%H%M%S).json"
-    daily=$(ccusage opencode daily --json "${offline[@]}" 2>/dev/null)
-    sessions=$(ccusage opencode session --json "${offline[@]}" 2>/dev/null)
-    jq -n --arg ts "$(date -Iseconds)" --argjson daily "$daily" --argjson sessions "$sessions" \
+    daily=$(ccusage opencode daily --json ${offline[@]+"${offline[@]}"} 2>/dev/null)
+    sessions=$(ccusage opencode session --json ${offline[@]+"${offline[@]}"} 2>/dev/null)
+    jq -n --arg ts "$(iso_now)" --argjson daily "$daily" --argjson sessions "$sessions" \
       '{exported_at: $ts, source: "ccusage opencode", daily: $daily, sessions: $sessions}' >"$out"
     printf '%s\n' "$out"
     ;;
@@ -177,7 +177,7 @@ case "$cmd" in
   all)
     need_ccusage
     # shellcheck disable=SC2046
-    exec ccusage daily "${offline[@]}" "$@"
+    exec ccusage daily ${offline[@]+"${offline[@]}"} "$@"
     ;;
 
   claude)

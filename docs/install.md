@@ -2,7 +2,38 @@
 
 This is the clean-install procedure. It was written and tested on Arch Linux;
 `scripts/system-install.sh` auto-detects Debian/Ubuntu, Fedora/RHEL, openSUSE,
-and Alpine as well. Versions are listed at the end of this page.
+Alpine, and macOS (Homebrew) as well. On Windows, use WSL2. Versions are listed
+at the end of this page.
+
+## Platform notes
+
+**macOS**
+
+- Install [Homebrew](https://brew.sh) and the base tools:
+  `brew install git node jq ripgrep`.
+- Run `bash ~/nex/scripts/system-install.sh` **without** `sudo`; Homebrew
+  refuses to run as root. Chromium is skipped; Playwright and Chrome for
+  Testing cover browser needs.
+- Hooks run with the system Bash 3.2 and do not need GNU coreutils. `flock`
+  is not available, so concurrent session ends can race when writing the
+  usage log.
+- The default shell is zsh; `nex link` adds the PATH block to `~/.zshrc`.
+
+**Windows (WSL2)**
+
+Native Windows is not supported. Run everything inside a WSL2 distribution:
+
+```powershell
+wsl --install -d Ubuntu-24.04
+```
+
+Then, inside WSL, follow the Linux steps below. Two rules:
+
+- Clone the repository into the WSL filesystem (`~/nex`), not under `/mnt/c`.
+  The Windows filesystem breaks file permissions and is slow.
+- Install Claude Code, OpenCode, and Node inside WSL and start them from a WSL
+  shell. Windows-side installs use a different home directory and do not see
+  nex. `nex verify` warns about both cases.
 
 ## 1. Base system and account
 
@@ -119,7 +150,7 @@ The repository settings already allow `mcp__engram__*`.
 cd ~/nex
 node scripts/render.mjs
 bash scripts/link.sh
-exec bash          # reload PATH (or open a new terminal)
+exec "$SHELL"     # reload PATH (or open a new terminal)
 ```
 
 `link.sh` is idempotent. It backs up conflicting real files to

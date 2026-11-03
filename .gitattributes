@@ -1,0 +1,3 @@
+# Bash cannot run scripts with CRLF line endings; keep LF on every platform,
+# including a Windows checkout used from WSL.
+* text=auto eol=lf

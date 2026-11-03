@@ -60,7 +60,7 @@ Only `shared/` is canonical. Claude-only and OpenCode-only syntax lives in
 ## ⚡ Quick start
 
 ```bash
-exec bash                 # reload PATH
+exec "$SHELL"            # reload PATH
 nex verify                # check tools, links, config, and hooks
 nex usage report          # local token/cost report
 nex project new my-app    # create a project from the template
@@ -194,9 +194,9 @@ nex version              # tool versions
 
 | OS | Status | Notes |
 |---|---|---|
-| Linux (Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, Alpine) | ✅ Supported | `system-install.sh` auto-detects the distro. Tested on Arch Linux. |
-| macOS | ❌ Not yet | Symlinks and Bash work, but install scripts and paths are Linux-oriented. |
-| Windows | ❌ Not supported | Requires WSL2; native Windows is not supported. |
+| Linux (Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, Alpine) | ✅ Supported | `system-install.sh` auto-detects the distro. Tested on Arch Linux; CI on Ubuntu. |
+| macOS | ✅ Supported | Homebrew install; hooks run on the stock Bash 3.2. CI runs the hook tests on macOS. |
+| Windows | ✅ Via WSL2 | Run nex inside WSL2 with the repo in `~/nex`. CI runs the hook tests in WSL2 Ubuntu 24.04. Native Windows is not supported. |
 
 ## 📚 Documentation
 
