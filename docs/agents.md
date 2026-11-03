@@ -12,6 +12,8 @@ Claude Code and OpenCode files. The prompt lives in
 | `tester` | subagent | STANDARD | tests only | reproduce, write tests, run suites |
 | `documenter` | subagent | FAST | docs only | README/docs from verified behavior |
 | `security` | subagent | REVIEW | no | focused security audit |
+| `frontend-developer` | subagent | STANDARD | UI and tests | UI work; loads `frontend-design` |
+| `backend-developer` | subagent | STANDARD | yes | server-side work; loads `backend-design` |
 
 ## Permissions
 

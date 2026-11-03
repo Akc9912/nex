@@ -26,6 +26,14 @@ must never break. Replace this paragraph.
 - Test layout:
 - Branch/commit style:
 
+## Design system
+
+Remove this section if the project has no UI.
+
+- Tokens (color, type, spacing):
+- Shared components:
+- Reference screens:
+
 ## Verification
 
 Before declaring work complete, run `./scripts/verify.sh`. Report the exact

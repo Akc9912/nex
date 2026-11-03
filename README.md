@@ -93,12 +93,12 @@ One job each. Read-only agents have no edit tools in both CLIs.
 
 ---
 
-## 🧩 Skills (33)
+## 🧩 Skills (35)
 
 On-demand Agent Skills (SKILL.md standard). Loaded only when relevant — no
 context bloat.
 
-**Core nex:** `api-design` · `nex-maintenance` · `technical-writing` · `test-design`
+**Core nex:** `api-design` · `backend-design` · `frontend-design` · `nex-maintenance` · `technical-writing` · `test-design`
 
 **Superpowers:** `brainstorming` · `diagnosing-superpowers` · `dispatching-parallel-agents` · `executing-plans` · `finishing-a-development-branch` · `receiving-code-review` · `requesting-code-review` · `subagent-driven-development` · `systematic-debugging` · `test-driven-development` · `using-git-worktrees` · `using-superpowers` · `verification-before-completion` · `writing-plans` · `writing-skills`
 

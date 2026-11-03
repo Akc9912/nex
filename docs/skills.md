@@ -7,14 +7,29 @@ global context stays small.
 
 ## Installed skills
 
+nex-owned skills:
+
 | Skill | Use when |
 |---|---|
-| `code-review` | reviewing a diff or your own changes before commit |
-| `systematic-debugging` | a failure is not obvious; avoid guess-and-check |
-| `security-audit` | focused security review of code, deps, or containers |
+| `frontend-design` | building or reviewing UI; design-system consistency, hierarchy, states, accessibility, avoiding AI-looking interfaces |
+| `backend-design` | server-side code; layer responsibilities, queries, transactions, authz |
+| `api-design` | designing or changing HTTP/RPC contracts |
 | `test-design` | adding tests, fixing a bug, improving a weak suite |
 | `technical-writing` | README, setup guide, architecture note, runbook |
 | `nex-maintenance` | changing this environment itself |
+
+Skills adapted from external collections (kept close to upstream; do not edit
+them to add nex standards, put those in nex-owned skills instead):
+
+- Superpowers: `brainstorming`, `systematic-debugging`, `test-driven-development`,
+  `writing-plans`, `executing-plans`, `requesting-code-review`,
+  `receiving-code-review`, `verification-before-completion`, and related
+  workflow skills.
+- Ponytail: `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`,
+  `ponytail-gain`, `ponytail-help`.
+- BMAD: `bmad-*` skills.
+
+`ls shared/skills` is the authoritative list.
 
 ## How they load
 
@@ -58,6 +73,6 @@ Guidelines:
 
 ## What not to install
 
-Do not vendor large prompt collections (Superpowers, BMAD, Ponytail, or similar)
-wholesale. They add context and overlap with the rules here. If a specific skill
-is useful, adapt the idea into a small local `SKILL.md` with a clear trigger.
+Do not vendor large prompt collections wholesale. They add context and overlap
+with the rules here. Pick individual skills with a clear trigger, remove nex
+skills they replace, and record the choice in `CHANGELOG.md`.

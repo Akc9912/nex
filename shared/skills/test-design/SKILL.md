@@ -24,6 +24,8 @@ Prefer the lowest level that can catch the bug. Do not mock the thing under test
 - empty, missing, and invalid input
 - boundaries (0, 1, max, overflow, unicode, time zones)
 - error and retry paths
+- validation and permission checks (allowed and denied)
+- integration between modules where a boundary changed
 - concurrency or ordering when relevant
 - the exact regression that motivated the change
 
@@ -34,3 +36,6 @@ Prefer the lowest level that can catch the bug. Do not mock the thing under test
 - Avoid sleeps and shared mutable state; use deterministic clocks and fixtures.
 - A flaky test is a bug: fix or quarantine it with an owner and a reason.
 - Run the test without the fix and confirm it fails for the right reason.
+- Scale coverage to risk and complexity; trivial code does not need a suite.
+- Never edit a test to fit incorrect code, or delete a failing test before
+  understanding its cause.

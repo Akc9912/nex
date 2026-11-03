@@ -1,7 +1,9 @@
 ## Workflow
 
 1. **Understand.** Read the request, the repository instructions, and the
-   relevant files. Check memory when the task may have prior context.
+   relevant files. Check memory when the task may have prior context. Identify
+   existing conventions and code to reuse, and check what depends on the code
+   you will change. Do not touch files unrelated to the task.
 2. **Plan.** For multi-file or risky work, state a short plan: goal, files,
    approach, verification. Use the `architect` agent when the design is unclear.
 3. **Implement.** Make the smallest coherent change. Add or update tests with
