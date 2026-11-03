@@ -5,10 +5,6 @@
 [![Bash](https://img.shields.io/badge/Bash-5.3-4EAA25?logo=gnu-bash&logoColor=fff)](https://www.gnu.org/software/bash/)
 [![Node.js](https://img.shields.io/badge/Node.js-26-339933?logo=node.js&logoColor=fff)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
-[![Python](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=fff)](https://python.org/)
-[![Go](https://img.shields.io/badge/Go-1.25-00ADD8?logo=go&logoColor=fff)](https://go.dev/)
-[![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=fff)](https://sqlite.org/)
-[![Engram](https://img.shields.io/badge/Engram-v3.6.1-4B8BBE)](https://github.com/Gentleman-Programming/engram)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > A single source of truth for rules, agents, skills, hooks, MCP, memory, and
