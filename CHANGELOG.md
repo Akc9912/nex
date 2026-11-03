@@ -31,6 +31,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `Design system` section in the project template `AGENTS.md`.
 
 ### Changed
+- README badges: CI status, macOS and Windows (WSL2) support, and Bash 3.2+
+  instead of 5.3. Docs cover CI, hook portability rules, and per-OS updates.
 - Hook and usage-log timestamps use `+%Y-%m-%dT%H:%M:%S%z` (offset `+0100`
   instead of `+01:00`) because BSD `date` has no `-I`.
 - `tests/hooks.sh` no longer enables `set -e` midway, which aborted any later

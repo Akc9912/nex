@@ -11,10 +11,11 @@ nex link
 nex verify
 ```
 
-Official packages:
+System packages, with the platform's package manager:
 
 ```bash
-sudo pacman -Syu
+sudo pacman -Syu                  # Arch (or apt/dnf/zypper/apk; WSL2 too)
+brew upgrade                      # macOS
 ```
 
 ## Update a pinned tool
@@ -50,6 +51,22 @@ versions. If an alias is unavailable, Claude may fall back or warn.
   `nex render && nex link`.
 - Skills: edit `shared/skills/<name>/SKILL.md`, run `nex link`.
 - Hooks: edit `shared/hooks/*.sh`, run `nex hooks test`, then `nex verify`.
+  Keep them portable; see [hooks.md](hooks.md#portability).
+
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on every push and pull request:
+
+| Job | Runner | Checks |
+|---|---|---|
+| `linux` | `ubuntu-latest` | render check, shellcheck (`--severity=warning`), hook tests |
+| `macos` | `macos-latest` | render check, hook tests under `/bin/bash` 3.2 without GNU coreutils |
+| `windows-wsl` | `windows-latest` + WSL2 Ubuntu 24.04 | render check, hook tests from `~/nex` inside WSL |
+
+Actions are pinned by commit SHA. To bump one, resolve the new tag's commit
+(`gh api repos/<owner>/<repo>/git/ref/tags/<tag>`) and update the SHA and the
+version comment together. CI does not run the installers or the Claude
+Code/OpenCode integrations.
 
 Never edit `shared/AGENTS.md`, `claude/agents/*.md`, or `opencode/agents/*.md`
 directly; they are generated. `render --check` detects drift.

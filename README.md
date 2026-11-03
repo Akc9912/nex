@@ -1,8 +1,11 @@
 # 🧠 nex — Provider-Agnostic AI Development Environment
 
+[![CI](https://github.com/Akc9912/nex/actions/workflows/ci.yml/badge.svg)](https://github.com/Akc9912/nex/actions/workflows/ci.yml)
 [![Linux](https://img.shields.io/badge/Linux-Multi--Distro-FCC624?logo=linux&logoColor=000)](docs/install.md)
+[![macOS](https://img.shields.io/badge/macOS-Homebrew-000?logo=apple&logoColor=fff)](docs/install.md#platform-notes)
+[![Windows](https://img.shields.io/badge/Windows-WSL2-0078D6?logo=windows&logoColor=fff)](docs/install.md#platform-notes)
 [![Provider Agnostic](https://img.shields.io/badge/Provider-Agnostic-6E56CF)](docs/architecture.md)
-[![Bash](https://img.shields.io/badge/Bash-5.3-4EAA25?logo=gnu-bash&logoColor=fff)](https://www.gnu.org/software/bash/)
+[![Bash](https://img.shields.io/badge/Bash-3.2%2B-4EAA25?logo=gnu-bash&logoColor=fff)](docs/hooks.md#portability)
 [![Node.js](https://img.shields.io/badge/Node.js-26-339933?logo=node.js&logoColor=fff)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -147,7 +150,7 @@ Enable OAuth servers via `/mcps` inside the TUI.
 | Session end | `session-end.sh` | deterministic handoff + usage record |
 | After edit | `post-edit.sh` | selective formatter/linter/syntax checks |
 | Before `git commit` | `pre-commit.sh` | secrets, whitespace, staged-file checks, lint |
-| Before any shell | `guard-destructive.sh` | blocks destructive commands |
+| Before any shell | `guard-destructive.sh` | blocks destructive commands and `Co-Authored-By` commit trailers |
 | Task stop | `task-verify.sh` | runs project verifier when present |
 
 Claude Code maps these in `claude/settings.json`. OpenCode registers them via
@@ -186,7 +189,11 @@ nex update                # pull + render + link + verify
 nex render                # regenerate agents and AGENTS.md
 nex link                  # install/refresh symlinks
 nex version              # tool versions
+nex hooks test            # hook test suite (also run by CI)
 ```
+
+CI (`.github/workflows/ci.yml`) runs the render check, shellcheck, and the hook
+tests on Linux, macOS (stock Bash 3.2), and WSL2.
 
 ---
 

@@ -12,6 +12,22 @@ V2 plugin. They are guardrails and evidence collectors, not a sandbox.
 | `guard-destructive.sh` | before any shell | blocks obvious destructive commands and commits with `Co-Authored-By` trailers |
 | `task-verify.sh` | agent stop | runs the project verifier once per changed tree |
 
+## Portability
+
+Hooks and scripts run on Linux, macOS, and WSL2. On macOS they run under the
+stock `/bin/bash` 3.2 without GNU coreutils, so:
+
+- Use the `_lib.sh` helpers: `run_timeout` instead of `timeout`, `sha256`
+  instead of `sha256sum`, `iso_now` instead of `date -Iseconds`.
+- Avoid Bash 4+ features: `mapfile`/`readarray`, `declare -A`, `${var,,}`.
+- Under `set -u`, expand a possibly empty array as `${arr[@]+"${arr[@]}"}`.
+- Avoid GNU-only flags: `sed -i`, `stat -c`, `date -d`, `readlink -f`,
+  `xargs -r`. Use `wc -c <file` for sizes.
+- `flock` may be missing; degrade gracefully when it is.
+
+The macOS CI job enforces this; locally, `tests/hooks.sh` can be run with a
+`PATH` that omits `timeout`, `sha256sum`, and `flock`.
+
 ## Claude Code mapping
 
 `claude/settings.json` maps:
