@@ -190,6 +190,14 @@ nex version              # tool versions
 
 ---
 
+## 🖥️ OS support
+
+| OS | Status | Notes |
+|---|---|---|
+| Linux (Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, Alpine) | ✅ Supported | `system-install.sh` auto-detects the distro. Tested on Arch Linux. |
+| macOS | ❌ Not yet | Symlinks and Bash work, but install scripts and paths are Linux-oriented. |
+| Windows | ❌ Not supported | Requires WSL2; native Windows is not supported. |
+
 ## 📚 Documentation
 
 | Doc | Content |
