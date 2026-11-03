@@ -1,8 +1,7 @@
 # 🧠 nex — Provider-Agnostic AI Development Environment
 
 [![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?logo=arch-linux&logoColor=fff)](https://archlinux.org/)
-[![Claude Code](https://img.shields.io/badge/Provider-Claude_Code-D97757?logo=anthropic&logoColor=fff)](https://docs.anthropic.com/en/docs/claude-code)
-[![OpenCode](https://img.shields.io/badge/Provider-OpenCode-v2.2.5-000?logo=opencode&logoColor=fff)](https://opencode.ai/)
+[![Provider Agnostic](https://img.shields.io/badge/Provider-Agnostic-6E56CF)](docs/architecture.md)
 [![Engram](https://img.shields.io/badge/Engram-v3.6.1-4B8BBE)](https://github.com/Gentleman-Programming/engram)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
