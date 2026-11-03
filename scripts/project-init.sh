@@ -3,7 +3,6 @@
 # Usage: nex project init [directory]
 set -euo pipefail
 ROOT="${NEX_ROOT:-$HOME/nex}"
-TEMPLATE="$ROOT/projects/template"
 dest="${1:-$PWD}"
 [ -d "$dest" ] || { printf 'nex project init: directory not found: %s\n' "$dest" >&2; exit 1; }
 dest=$(cd "$dest" && pwd)
