@@ -2,8 +2,9 @@
 
 - **Claude Code is not authenticated** in this setup. Authentication is
   interactive and must be completed by the user (`claude auth login`).
-- **Pacman packages** (gitleaks, trivy, chromium, uv, shellcheck, gh) are not
-  installed; the agent cannot supply sudo. Run `system-install.sh`.
+- **System packages** are installed via `scripts/system-install.sh`, which
+  supports Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, and Alpine. Other
+  distributions may need manual package installation.
 - **semgrep** is installed via `uv tool install semgrep` (not an official Arch package).
 - **Chrome DevTools MCP** officially supports Chrome/Chrome for Testing only;
   Chromium is unsupported.

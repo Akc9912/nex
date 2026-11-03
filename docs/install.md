@@ -1,7 +1,8 @@
 # Install and rebuild
 
-This is the clean-install procedure for Arch Linux. It was written against the
-versions listed at the end of this page.
+This is the clean-install procedure. It was written and tested on Arch Linux;
+`scripts/system-install.sh` auto-detects Debian/Ubuntu, Fedora/RHEL, openSUSE,
+and Alpine as well. Versions are listed at the end of this page.
 
 ## 1. Base system and account
 

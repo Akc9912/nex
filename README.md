@@ -1,6 +1,6 @@
 # 🧠 nex — Provider-Agnostic AI Development Environment
 
-[![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?logo=arch-linux&logoColor=fff)](https://archlinux.org/)
+[![Linux](https://img.shields.io/badge/Linux-Multi--Distro-FCC624?logo=linux&logoColor=000)](docs/install.md)
 [![Provider Agnostic](https://img.shields.io/badge/Provider-Agnostic-6E56CF)](docs/architecture.md)
 [![Bash](https://img.shields.io/badge/Bash-5.3-4EAA25?logo=gnu-bash&logoColor=fff)](https://www.gnu.org/software/bash/)
 [![Node.js](https://img.shields.io/badge/Node.js-26-339933?logo=node.js&logoColor=fff)](https://nodejs.org/)
