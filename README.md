@@ -59,8 +59,8 @@ rendered into agent adapters. Change them there, run `nex render`, then `nex lin
 
 ## Agents
 
-`architect`, `reviewer`, `explorer`, `tester`, `documenter`, and `security` have
-one job each. Read-only agents have no edit tools in both tools; in OpenCode they
+`architect`, `backend-developer`, `frontend-developer`, `reviewer`, `explorer`,
+`tester`, `documenter`, and `security` have one job each. Read-only agents have no edit tools in both tools; in OpenCode they
 also have explicit permission rules that deny edits and most shell commands.
 See [`docs/agents.md`](docs/agents.md).
 

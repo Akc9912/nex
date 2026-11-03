@@ -4,7 +4,7 @@
   interactive and must be completed by the user (`claude auth login`).
 - **Pacman packages** (gitleaks, trivy, chromium, uv, shellcheck, gh) are not
   installed; the agent cannot supply sudo. Run `system-install.sh`.
-- **semgrep** is not available in official Arch repos and is not installed.
+- **semgrep** is installed via `uv tool install semgrep` (not an official Arch package).
 - **Chrome DevTools MCP** officially supports Chrome/Chrome for Testing only;
   Chromium is unsupported.
 - **OpenCode Console** does not expose plan quotas through the CLI or local

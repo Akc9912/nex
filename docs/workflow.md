@@ -89,3 +89,16 @@ nex verify
 
 Restart OpenCode after config or plugin changes. Claude Code reloads user agents
 and skills automatically in most cases; restart if a new directory was created.
+
+## Delegation policy
+
+- Trivial tasks: execute directly.
+- Simple tasks: execute directly.
+- Medium tasks: delegate when it adds value (explorer, tester, documenter).
+- Complex tasks: plan first (architect), then specialized agents.
+- Independent tasks: run in parallel (research agents before implementation).
+- Significant changes: independent review (reviewer on a different model family).
+
+Avoid two agents editing the same files simultaneously. Use git worktrees
+(`opencode worktree create` or `git worktree add`) for isolated concurrent work.
+Prefer parallel research agents before concurrent implementation.

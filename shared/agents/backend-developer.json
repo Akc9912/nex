@@ -1,0 +1,36 @@
+{
+  "id": "backend-developer",
+  "description": "Implements APIs, services, repositories, controllers, and DTOs; writes tests and respects existing architecture.",
+  "mode": "subagent",
+  "profile": "STANDARD",
+  "color": "#7dcfff",
+  "opencode": {
+    "steps": 30,
+    "permissions": [
+      { "action": "edit", "resource": "*", "effect": "deny" },
+      { "action": "edit", "resource": "src/**", "effect": "allow" },
+      { "action": "edit", "resource": "lib/**", "effect": "allow" },
+      { "action": "edit", "resource": "app/**", "effect": "allow" },
+      { "action": "edit", "resource": "tests/**", "effect": "allow" },
+      { "action": "edit", "resource": "**/*.test.*", "effect": "allow" },
+      { "action": "edit", "resource": "**/*.spec.*", "effect": "allow" },
+      { "action": "shell", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "npm test*", "effect": "allow" },
+      { "action": "shell", "resource": "npm run test*", "effect": "allow" },
+      { "action": "shell", "resource": "pnpm test*", "effect": "allow" },
+      { "action": "shell", "resource": "pnpm run test*", "effect": "allow" },
+      { "action": "shell", "resource": "pytest*", "effect": "allow" },
+      { "action": "shell", "resource": "python -m pytest*", "effect": "allow" },
+      { "action": "shell", "resource": "go test*", "effect": "allow" },
+      { "action": "shell", "resource": "cargo test*", "effect": "allow" },
+      { "action": "shell", "resource": "git diff*", "effect": "allow" },
+      { "action": "shell", "resource": "git status*", "effect": "allow" },
+      { "action": "subagent", "resource": "*", "effect": "deny" }
+    ]
+  },
+  "claude": {
+    "tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash"],
+    "permissionMode": "default",
+    "maxTurns": 30
+  }
+}

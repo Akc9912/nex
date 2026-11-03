@@ -14,7 +14,7 @@ have() { command -v "$1" >/dev/null 2>&1; }
 printf 'nex verify\n\n'
 
 printf 'Tools\n'
-for tool in claude opencode engram codegraph ccusage node npm jq sqlite3 git rg; do
+for tool in claude opencode engram codegraph ccusage openusage node npm jq sqlite3 git rg; do
   if have "$tool"; then ok "$tool: $("$tool" --version 2>/dev/null | head -1)"; else bad "$tool missing"; fi
 done
 for tool in gitleaks trivy semgrep chromium uv shellcheck gh; do

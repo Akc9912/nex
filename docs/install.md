@@ -73,9 +73,11 @@ This installs into `~/.local` (no root):
 | `chrome-devtools-mcp` | 1.12.0 | Chrome DevTools MCP |
 | `ccusage` | 20.0.48 | token/cost reporting |
 | `tokscale` | 4.21.0 | alternative usage viewer |
+| `openusage` | 0.26.3 | cross-provider usage dashboard (Go binary) |
 | `knip` | 6.44.1 | unused-code checks |
 | `prettier` | 3.9.10 | formatting |
 | `eslint` | 10.14.0 | linting |
+| `semgrep` | 1.183.0 | static analysis (via uv) |
 | `engram` | 3.6.1 | persistent memory |
 | `semgrep` | via `uv tool` | static analysis |
 

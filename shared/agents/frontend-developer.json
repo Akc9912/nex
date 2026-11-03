@@ -1,0 +1,36 @@
+{
+  "id": "frontend-developer",
+  "description": "Implements UI components, responsive layouts, accessibility, and design-system consistency.",
+  "mode": "subagent",
+  "profile": "STANDARD",
+  "color": "#f7768e",
+  "opencode": {
+    "steps": 30,
+    "permissions": [
+      { "action": "edit", "resource": "*", "effect": "deny" },
+      { "action": "edit", "resource": "src/**", "effect": "allow" },
+      { "action": "edit", "resource": "components/**", "effect": "allow" },
+      { "action": "edit", "resource": "app/**", "effect": "allow" },
+      { "action": "edit", "resource": "pages/**", "effect": "allow" },
+      { "action": "edit", "resource": "styles/**", "effect": "allow" },
+      { "action": "edit", "resource": "tests/**", "effect": "allow" },
+      { "action": "edit", "resource": "**/*.test.*", "effect": "allow" },
+      { "action": "edit", "resource": "**/*.spec.*", "effect": "allow" },
+      { "action": "shell", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "npm test*", "effect": "allow" },
+      { "action": "shell", "resource": "npm run test*", "effect": "allow" },
+      { "action": "shell", "resource": "npm run build*", "effect": "allow" },
+      { "action": "shell", "resource": "npm run lint*", "effect": "allow" },
+      { "action": "shell", "resource": "pnpm test*", "effect": "allow" },
+      { "action": "shell", "resource": "pnpm run *", "effect": "allow" },
+      { "action": "shell", "resource": "git diff*", "effect": "allow" },
+      { "action": "shell", "resource": "git status*", "effect": "allow" },
+      { "action": "subagent", "resource": "*", "effect": "deny" }
+    ]
+  },
+  "claude": {
+    "tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash"],
+    "permissionMode": "default",
+    "maxTurns": 30
+  }
+}
