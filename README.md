@@ -1,16 +1,19 @@
-# 🧠 nex — Shared AI Development Environment
+# 🧠 nex — Provider-Agnostic AI Development Environment
 
 [![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?logo=arch-linux&logoColor=fff)](https://archlinux.org/)
-[![Claude Code](https://img.shields.io/badge/Claude_Code-2.1.311-D97757?logo=anthropic&logoColor=fff)](https://docs.anthropic.com/en/docs/claude-code)
-[![OpenCode](https://img.shields.io/badge/OpenCode-v2.2.5-000?logo=opencode&logoColor=fff)](https://opencode.ai/)
+[![Claude Code](https://img.shields.io/badge/Provider-Claude_Code-D97757?logo=anthropic&logoColor=fff)](https://docs.anthropic.com/en/docs/claude-code)
+[![OpenCode](https://img.shields.io/badge/Provider-OpenCode-v2.2.5-000?logo=opencode&logoColor=fff)](https://opencode.ai/)
 [![Engram](https://img.shields.io/badge/Engram-v3.6.1-4B8BBE)](https://github.com/Gentleman-Programming/engram)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > A single source of truth for rules, agents, skills, hooks, MCP, memory, and
-> token observability — shared across **Claude Code** and **OpenCode** on Arch Linux.
+> token observability — **agnostic to the AI provider**.
+>
+> Claude Code and OpenCode are the supported providers today; the architecture
+> allows adding more without rewriting the shared layer.
 >
 > No harness. No orchestrator. No custom TUI. Just modular configuration that
-> turns two CLIs into complete AI-assisted development environments.
+> turns supported AI CLIs into complete development environments.
 
 ---
 

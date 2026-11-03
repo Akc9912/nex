@@ -1,8 +1,10 @@
 # Architecture
 
-`nex` is a **configuration repository**, not a runtime. Claude Code and OpenCode
-remain the runtimes; `nex` gives them the same rules, specialists, memory, and
-guardrails without forking either tool.
+`nex` is a **provider-agnostic configuration repository**, not a runtime.
+Claude Code and OpenCode are the supported providers today; the shared layer
+(`shared/`) is tool-agnostic, and provider-specific adapters live under
+`claude/` and `opencode/`. Adding a new provider means adding a new adapter
+directory without touching the shared layer.
 
 > No harness. No orchestrator. No custom TUI. Just modular configuration.
 
