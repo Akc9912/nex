@@ -1,0 +1,25 @@
+{
+  "$comment": "Canonical model profiles. Change here, run `nex render`, then `nex link`.",
+  "profiles": {
+    "FAST": {
+      "claude": "haiku",
+      "opencode": "opencode/claude-haiku-5-5",
+      "purpose": "Cheap inventory, search, documentation, mechanical edits."
+    },
+    "STANDARD": {
+      "claude": "sonnet",
+      "opencode": "opencode/claude-sonnet-5-5",
+      "purpose": "Default implementation, tests, ordinary debugging."
+    },
+    "ADVANCED": {
+      "claude": "opus",
+      "opencode": "opencode/claude-opus-5-5",
+      "purpose": "Architecture, ambiguous design, hard debugging."
+    },
+    "REVIEW": {
+      "claude": "opus",
+      "opencode": "opencode/gpt-5.5",
+      "purpose": "Independent review; use a different model family from the implementer."
+    }
+  }
+}

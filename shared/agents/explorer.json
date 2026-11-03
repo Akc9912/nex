@@ -1,0 +1,20 @@
+{
+  "id": "explorer",
+  "description": "Finds files, symbols, flows, and constraints; returns a concise map without editing.",
+  "mode": "subagent",
+  "profile": "FAST",
+  "color": "#9ece6a",
+  "opencode": {
+    "steps": 12,
+    "permissions": [
+      { "action": "edit", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "*", "effect": "deny" },
+      { "action": "subagent", "resource": "*", "effect": "deny" }
+    ]
+  },
+  "claude": {
+    "tools": ["Read", "Grep", "Glob", "WebFetch", "WebSearch"],
+    "permissionMode": "plan",
+    "maxTurns": 12
+  }
+}

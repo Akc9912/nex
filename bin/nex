@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Small front door for the nex environment.
+set -euo pipefail
+ROOT="${NEX_ROOT:-$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)}"
+
+usage() {
+  cat <<'EOF'
+Usage: nex <command> [args]
+
+  usage [report|today|daily|session|models|history|export|quota|all|claude]
+  verify                 Check tools, links, config, hooks, and generated files
+  render [--check]       Regenerate AGENTS.md and agent adapters
+  link                   Install/refresh symlinks into Claude Code and OpenCode
+  project new <name>     Create a project from projects/template
+  hooks test             Run the hook smoke tests
+  memory <engram args>   Call the Engram CLI directly
+  statusline             Claude Code status line command
+  doctor                 Alias for verify
+  version                Print the repository revision and tool versions
+  help                   This message
+EOF
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "$cmd" in
+  usage) exec "$ROOT/scripts/usage.sh" "$@" ;;
+  verify|doctor) exec "$ROOT/scripts/verify.sh" "$@" ;;
+  render) exec node "$ROOT/scripts/render.mjs" "$@" ;;
+  link) exec "$ROOT/scripts/link.sh" "$@" ;;
+  project) exec "$ROOT/scripts/new-project.sh" "$@" ;;
+  hooks)
+    sub="${1:-test}"
+    case "$sub" in
+      test) exec "$ROOT/tests/hooks.sh" ;;
+      *) printf 'nex hooks: unknown subcommand: %s\n' "$sub" >&2; exit 2 ;;
+    esac
+    ;;
+  memory) exec engram "$@" ;;
+  statusline) exec "$ROOT/scripts/statusline.sh" ;;
+  version)
+    printf 'nex %s\n' "$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo 'uncommitted')"
+    for tool in claude opencode engram codegraph ccusage node npm sqlite3 gitleaks trivy semgrep; do
+      if command -v "$tool" >/dev/null 2>&1; then
+        printf '%-14s %s\n' "$tool" "$("$tool" --version 2>/dev/null | head -1)"
+      else
+        printf '%-14s missing\n' "$tool"
+      fi
+    done
+    ;;
+  help|-h|--help) usage ;;
+  *)
+    printf 'nex: unknown command: %s\n\n' "$cmd" >&2
+    usage
+    exit 2
+    ;;
+esac

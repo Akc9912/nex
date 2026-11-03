@@ -1,0 +1,23 @@
+{
+  "id": "documenter",
+  "description": "Updates README, docs, and comments from verified code behavior; does not change code.",
+  "mode": "subagent",
+  "profile": "FAST",
+  "color": "#bb9af7",
+  "opencode": {
+    "steps": 14,
+    "permissions": [
+      { "action": "edit", "resource": "*", "effect": "deny" },
+      { "action": "edit", "resource": "**/*.md", "effect": "allow" },
+      { "action": "edit", "resource": "**/*.mdx", "effect": "allow" },
+      { "action": "edit", "resource": "docs/**", "effect": "allow" },
+      { "action": "shell", "resource": "*", "effect": "deny" },
+      { "action": "subagent", "resource": "*", "effect": "deny" }
+    ]
+  },
+  "claude": {
+    "tools": ["Read", "Grep", "Glob", "Edit", "Write"],
+    "permissionMode": "default",
+    "maxTurns": 14
+  }
+}

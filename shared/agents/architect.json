@@ -1,0 +1,21 @@
+{
+  "id": "architect",
+  "description": "Designs approaches and plans multi-step work without editing files.",
+  "mode": "primary",
+  "profile": "ADVANCED",
+  "color": "#7aa2f7",
+  "opencode": {
+    "steps": 16,
+    "permissions": [
+      { "action": "edit", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "*", "effect": "deny" },
+      { "action": "subagent", "resource": "*", "effect": "deny" },
+      { "action": "subagent", "resource": "explorer", "effect": "allow" }
+    ]
+  },
+  "claude": {
+    "tools": ["Read", "Grep", "Glob", "WebFetch", "WebSearch"],
+    "permissionMode": "plan",
+    "maxTurns": 14
+  }
+}

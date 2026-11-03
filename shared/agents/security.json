@@ -1,0 +1,28 @@
+{
+  "id": "security",
+  "description": "Audits code and dependencies for security issues; runs read-only scanners and reports findings.",
+  "mode": "subagent",
+  "profile": "REVIEW",
+  "color": "#ff9e64",
+  "opencode": {
+    "steps": 18,
+    "permissions": [
+      { "action": "edit", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "gitleaks*", "effect": "allow" },
+      { "action": "shell", "resource": "trivy*", "effect": "allow" },
+      { "action": "shell", "resource": "semgrep*", "effect": "allow" },
+      { "action": "shell", "resource": "npm audit*", "effect": "allow" },
+      { "action": "shell", "resource": "pnpm audit*", "effect": "allow" },
+      { "action": "shell", "resource": "git diff*", "effect": "allow" },
+      { "action": "shell", "resource": "git log*", "effect": "allow" },
+      { "action": "shell", "resource": "git status*", "effect": "allow" },
+      { "action": "subagent", "resource": "*", "effect": "deny" }
+    ]
+  },
+  "claude": {
+    "tools": ["Read", "Grep", "Glob", "Bash"],
+    "permissionMode": "default",
+    "maxTurns": 18
+  }
+}

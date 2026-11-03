@@ -1,0 +1,39 @@
+{
+  "id": "tester",
+  "description": "Writes and runs tests, reproduces failures, and reports evidence; edits test files only.",
+  "mode": "subagent",
+  "profile": "STANDARD",
+  "color": "#e0af68",
+  "opencode": {
+    "steps": 24,
+    "permissions": [
+      { "action": "edit", "resource": "*", "effect": "deny" },
+      { "action": "edit", "resource": "**/*.test.*", "effect": "allow" },
+      { "action": "edit", "resource": "**/*.spec.*", "effect": "allow" },
+      { "action": "edit", "resource": "**/test/**", "effect": "allow" },
+      { "action": "edit", "resource": "**/tests/**", "effect": "allow" },
+      { "action": "edit", "resource": "**/__tests__/**", "effect": "allow" },
+      { "action": "shell", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "npm test*", "effect": "allow" },
+      { "action": "shell", "resource": "npm run test*", "effect": "allow" },
+      { "action": "shell", "resource": "pnpm test*", "effect": "allow" },
+      { "action": "shell", "resource": "pnpm run test*", "effect": "allow" },
+      { "action": "shell", "resource": "yarn test*", "effect": "allow" },
+      { "action": "shell", "resource": "bun test*", "effect": "allow" },
+      { "action": "shell", "resource": "npx vitest*", "effect": "allow" },
+      { "action": "shell", "resource": "npx jest*", "effect": "allow" },
+      { "action": "shell", "resource": "pytest*", "effect": "allow" },
+      { "action": "shell", "resource": "python -m pytest*", "effect": "allow" },
+      { "action": "shell", "resource": "go test*", "effect": "allow" },
+      { "action": "shell", "resource": "cargo test*", "effect": "allow" },
+      { "action": "shell", "resource": "git diff*", "effect": "allow" },
+      { "action": "shell", "resource": "git status*", "effect": "allow" },
+      { "action": "subagent", "resource": "*", "effect": "deny" }
+    ]
+  },
+  "claude": {
+    "tools": ["Read", "Grep", "Glob", "Edit", "Write", "Bash"],
+    "permissionMode": "default",
+    "maxTurns": 24
+  }
+}

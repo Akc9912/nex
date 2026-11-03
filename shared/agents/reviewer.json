@@ -1,0 +1,24 @@
+{
+  "id": "reviewer",
+  "description": "Reviews a diff or proposed change for correctness, regressions, and missing tests.",
+  "mode": "subagent",
+  "profile": "REVIEW",
+  "color": "#f7768e",
+  "opencode": {
+    "steps": 16,
+    "permissions": [
+      { "action": "edit", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "*", "effect": "deny" },
+      { "action": "shell", "resource": "git diff*", "effect": "allow" },
+      { "action": "shell", "resource": "git log*", "effect": "allow" },
+      { "action": "shell", "resource": "git show*", "effect": "allow" },
+      { "action": "shell", "resource": "git status*", "effect": "allow" },
+      { "action": "subagent", "resource": "*", "effect": "deny" }
+    ]
+  },
+  "claude": {
+    "tools": ["Read", "Grep", "Glob", "Bash"],
+    "permissionMode": "default",
+    "maxTurns": 16
+  }
+}
