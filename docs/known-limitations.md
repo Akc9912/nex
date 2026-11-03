@@ -1,5 +1,13 @@
 # Known limitations
 
+## OS support
+
+| OS | Status | Notes |
+|---|---|---|
+| Linux (Arch, Debian/Ubuntu, Fedora/RHEL, openSUSE, Alpine) | ✅ Supported | `system-install.sh` auto-detects the distro. Tested on Arch Linux. |
+| macOS | ❌ Not supported yet | Symlinks and Bash work, but install scripts and paths are Linux-oriented. Homebrew-based install not implemented. |
+| Windows | ❌ Not supported | Requires WSL2; native Windows is not supported (no Bash, symlinks, or Unix paths). |
+
 - **Claude Code is not authenticated** in this setup. Authentication is
   interactive and must be completed by the user (`claude auth login`).
 - **System packages** are installed via `scripts/system-install.sh`, which
