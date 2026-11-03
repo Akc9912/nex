@@ -33,6 +33,7 @@ exec bash                 # reload PATH
 nex verify                # check tools, links, config, and hooks
 nex usage report          # local token/cost report
 nex project new my-app    # create a project from the template
+nex project init          # adopt an existing project (generate missing files)
 ```
 
 In a project:

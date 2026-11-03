@@ -12,6 +12,7 @@ Usage: nex <command> [args]
   render [--check]       Regenerate AGENTS.md and agent adapters
   link                   Install/refresh symlinks into Claude Code and OpenCode
   project new <name>     Create a project from projects/template
+  project init [dir]     Adopt an existing project, generate missing nex files
   hooks test             Run the hook smoke tests
   memory <engram args>   Call the Engram CLI directly
   statusline             Claude Code status line command
@@ -29,7 +30,15 @@ case "$cmd" in
   verify|doctor) exec "$ROOT/scripts/verify.sh" "$@" ;;
   render) exec node "$ROOT/scripts/render.mjs" "$@" ;;
   link) exec "$ROOT/scripts/link.sh" "$@" ;;
-  project) exec "$ROOT/scripts/new-project.sh" "$@" ;;
+  project)
+    sub="${1:-new}"
+    shift || true
+    case "$sub" in
+      new) exec "$ROOT/scripts/new-project.sh" "$@" ;;
+      init) exec "$ROOT/scripts/project-init.sh" "$@" ;;
+      *) printf 'nex project: unknown subcommand: %s\n' "$sub" >&2; exit 2 ;;
+    esac
+    ;;
   hooks)
     sub="${1:-test}"
     case "$sub" in
