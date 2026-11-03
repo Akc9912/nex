@@ -19,7 +19,6 @@ else
 fi
 
 DISTRO_ID="${ID:-unknown}"
-DISTRO_LIKE="${ID_LIKE:-}"
 
 detect_pm() {
   if command -v pacman >/dev/null 2>&1; then echo pacman; return; fi
@@ -48,10 +47,6 @@ case "$PM" in
     PKG_UV="uv"
     PKG_SHELLCHECK="shellcheck"
     PKG_GH="github-cli"
-    PKG_NODE="nodejs npm"
-    PKG_PYTHON="python"
-    PKG_JQ="jq"
-    PKG_SQLITE="sqlite"
     INSTALL_CMD="pacman -S --needed --noconfirm"
     ;;
   apt)
@@ -61,10 +56,6 @@ case "$PM" in
     PKG_UV=""
     PKG_SHELLCHECK="shellcheck"
     PKG_GH="gh"
-    PKG_NODE="nodejs npm"
-    PKG_PYTHON="python3"
-    PKG_JQ="jq"
-    PKG_SQLITE="sqlite3"
     INSTALL_CMD="apt-get install -y"
     ;;
   dnf)
@@ -74,10 +65,6 @@ case "$PM" in
     PKG_UV="uv"
     PKG_SHELLCHECK="ShellCheck"
     PKG_GH="gh"
-    PKG_NODE="nodejs npm"
-    PKG_PYTHON="python3"
-    PKG_JQ="jq"
-    PKG_SQLITE="sqlite"
     INSTALL_CMD="dnf install -y"
     ;;
   zypper)
@@ -87,10 +74,6 @@ case "$PM" in
     PKG_UV="uv"
     PKG_SHELLCHECK="ShellCheck"
     PKG_GH="gh"
-    PKG_NODE="nodejs npm"
-    PKG_PYTHON="python3"
-    PKG_JQ="jq"
-    PKG_SQLITE="sqlite3"
     INSTALL_CMD="zypper install -y"
     ;;
   apk)
@@ -100,10 +83,6 @@ case "$PM" in
     PKG_UV="uv"
     PKG_SHELLCHECK="shellcheck"
     PKG_GH="github-cli"
-    PKG_NODE="nodejs npm"
-    PKG_PYTHON="python3"
-    PKG_JQ="jq"
-    PKG_SQLITE="sqlite"
     INSTALL_CMD="apk add"
     ;;
 esac
